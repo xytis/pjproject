@@ -1455,6 +1455,7 @@ Optional Packages:
                           make sure that SRTP is accessible to use (hint: use
                           CFLAGS and LDFLAGS env var to set the include/lib
                           paths)
+                          NOTE: this the default option.
   --with-external-pa      Use external PortAudio development files, not the
                           one in "third_party" directory. When this option is
                           set, make sure that PortAudio is accessible to use
@@ -5829,8 +5830,7 @@ fi
 
 
 
-ac_external_srtp=0
-
+ac_external_srtp=1
 
 # Check whether --with-external-srtp was given.
 if test "${with_external_srtp+set}" = set; then :
