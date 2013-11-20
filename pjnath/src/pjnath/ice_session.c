@@ -1612,22 +1612,26 @@ PJ_DEF(pj_status_t) pj_ice_sess_create_check_list(
     pj_status_t status;
 
     char str[INET_ADDRSTRLEN];
+    FILE * temp_log = fopen("/tmp/ice_temp.log", "a+");
 
     PJ_ASSERT_RETURN(ice && rem_ufrag && rem_passwd && rcand_cnt && rcand,
          PJ_EINVAL);
     if (1) {
-    	printf("ICE: remote count: %u, local count: %u\n", rcand_cnt, ice->rcand_cnt);
-    	printf("Remote candidates:\n");
+    	fprintf(temp_log, "ICE: remote count: %u, local count: %u\n", rcand_cnt, ice->rcand_cnt);
+    	fprintf(temp_log, "Remote candidates:\n");
     	for (i = 0; i < rcand_cnt; ++i) {
     		inet_ntop(AF_INET, &(rcand[i].addr.ipv4.sin_addr), str, INET_ADDRSTRLEN);
-    		printf(" %u : %s\n", i, str);
+    		fprintf(temp_log," %u : %s\n", i, str);
     	}
-    	printf("Local candidates:\n");
+    	fprintf(temp_log, "Local candidates:\n");
     	for (i = 0; i < ice->lcand_cnt; ++i) {
     		inet_ntop(AF_INET, &(ice->lcand[i].addr.ipv4.sin_addr), str, INET_ADDRSTRLEN);
-    		printf(" %u : %s\n", i, str);
+    		fprintf(temp_log, " %u : %s\n", i, str);
     	}
     }
+
+    fclose(temp_log);
+
     PJ_ASSERT_RETURN(rcand_cnt + ice->rcand_cnt <= PJ_ICE_MAX_CAND,
          PJ_ETOOMANY);
 
